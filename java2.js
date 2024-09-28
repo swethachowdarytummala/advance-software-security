@@ -1,0 +1,27 @@
+// Vulnerable search feature
+
+app.get('/search', (req, res) => {
+
+    let searchQuery = req.query.search; // User input (e.g., from URL parameter)
+
+    let query = `SELECT * FROM posts WHERE title LIKE '%${searchQuery}%'`; // Dangerous!
+
+    
+
+    // Execute the query
+
+    db.query(query, (err, results) => {
+
+        if (err) {
+
+            console.error(err);
+
+            return res.status(500).send("Server error");
+
+        }
+
+        res.json(results);
+
+    });
+
+});
